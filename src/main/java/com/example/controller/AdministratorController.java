@@ -2,6 +2,7 @@ package com.example.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,10 +80,14 @@ public class AdministratorController {
 		if(result.hasErrors()){
 			return toInsert();
 		}
-		Administrator administrator = new Administrator();
-		// フォームからドメインにプロパティ値をコピー
-		BeanUtils.copyProperties(form, administrator);
-		administratorService.insert(administrator);
+		try {
+			Administrator administrator = new Administrator();
+			// フォームからドメインにプロパティ値をコピー
+			BeanUtils.copyProperties(form, administrator);
+			administratorService.insert(administrator);
+		} catch (DuplicateKeyException e) {
+			return duplicate();
+		}
 		return "redirect:/";
 	}
 
@@ -129,4 +134,12 @@ public class AdministratorController {
 		return "redirect:/";
 	}
 
+	/**
+	 * メールアドレス重複画面を表示する
+	 * @return メールアドレス重複画面
+	 */
+	@GetMapping("/duplicate")
+	public String duplicate() {
+		return "administrator/duplicateKey";
+	}
 }
