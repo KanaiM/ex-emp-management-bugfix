@@ -22,6 +22,16 @@ public class InsertAdministratorForm {
 	@NotBlank(message = "必須入力です")
 	@Size(min = 5, message = "5文字以上で入力してください")
 	private String password;
+	
+	private String password2;
+
+	public String getPassword2() {
+		return password2;
+	}
+
+	public void setPassword2(String password2) {
+		this.password2 = password2;
+	}
 
 	public String getName() {
 		return name;
@@ -50,7 +60,7 @@ public class InsertAdministratorForm {
 	@Override
 	public String toString() {
 		return "InsertAdministratorForm [name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ "]";
+				+ ", password2=" + password2 + "]";
 	}
 
 }
