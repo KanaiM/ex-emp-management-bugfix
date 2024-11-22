@@ -86,7 +86,8 @@ public class AdministratorController {
 			BeanUtils.copyProperties(form, administrator);
 			administratorService.insert(administrator);
 		} catch (DuplicateKeyException e) {
-			return duplicate();
+			model.addAttribute("message", "メールアドレスが既に登録されています");
+			return toInsert();
 		}
 		return "redirect:/";
 	}
@@ -132,14 +133,5 @@ public class AdministratorController {
 	public String logout() {
 		session.invalidate();
 		return "redirect:/";
-	}
-
-	/**
-	 * メールアドレス重複画面を表示する
-	 * @return メールアドレス重複画面
-	 */
-	@GetMapping("/duplicate")
-	public String duplicate() {
-		return "administrator/duplicateKey";
 	}
 }
