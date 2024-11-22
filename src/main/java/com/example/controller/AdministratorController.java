@@ -2,7 +2,11 @@ package com.example.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -72,11 +76,18 @@ public class AdministratorController {
 	 * @return ログイン画面へリダイレクト
 	 */
 	@PostMapping("/insert")
-	public String insert(InsertAdministratorForm form) {
-		Administrator administrator = new Administrator();
-		// フォームからドメインにプロパティ値をコピー
-		BeanUtils.copyProperties(form, administrator);
-		administratorService.insert(administrator);
+	public String insert(@Validated InsertAdministratorForm form, BindingResult result, Model model) {
+		if(result.hasErrors()){
+			return toInsert();
+		}
+		try {
+			Administrator administrator = new Administrator();
+			// フォームからドメインにプロパティ値をコピー
+			BeanUtils.copyProperties(form, administrator);
+			administratorService.insert(administrator);
+		} catch (DuplicateKeyException e) {
+			return duplicate();
+		}
 		return "redirect:/";
 	}
 
@@ -123,4 +134,12 @@ public class AdministratorController {
 		return "redirect:/";
 	}
 
+	/**
+	 * メールアドレス重複画面を表示する
+	 * @return メールアドレス重複画面
+	 */
+	@GetMapping("/duplicate")
+	public String duplicate() {
+		return "administrator/duplicateKey";
+	}
 }
