@@ -19,6 +19,7 @@ public class InsertAdministratorForm {
 	@Email(message = "Emailアドレスの形式が不正です")
 	private String mailAddress;
 	/** パスワード */
+	@NotBlank(message = "必須入力です")
 	@Size(min = 5, message = "5文字以上で入力してください")
 	private String password;
 
