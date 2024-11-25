@@ -81,7 +81,7 @@
                   <div class="row">
                     <div class="col-sm-12">
                       <label for="mailAddress"> メールアドレス: </label>
-                      <p class="message" th:text="${message}"></p>
+                      <p th:class="error-messages" th:text="${message}"></p>
                       <label
                         th:errors="*{mailAddress}"
                         class="error-messages"
@@ -97,6 +97,8 @@
                         th:field="*{mailAddress}"
                         th:errorclass="error-input"
                         value="yamada@mail.com"
+                        th:if="${message != null}"
+                        th:class="error-input"
                       />
                     </div>
                   </div>
