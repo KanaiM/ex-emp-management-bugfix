@@ -29,12 +29,12 @@ public class InsertAdministratorForm {
 
 	@AssertTrue(message = "確認用パスワードが一致しません")
 	public boolean isPasswordValid() {
-		// if (password == null || password.isEmpty()) {
-		// 	return true;
-		// }
+		if (password == null || password.isEmpty()) {
+			return true;
+		}
 		
-		return true;
-		// return password.equals(password2);
+		// return true;
+		return password.equals(password2);
 	} 
 
 	public String getPassword2() {
