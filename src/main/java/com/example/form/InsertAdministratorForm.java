@@ -32,8 +32,6 @@ public class InsertAdministratorForm {
 		if (password == null || password.isEmpty()) {
 			return true;
 		}
-		
-		// return true;
 		return password.equals(password2);
 	} 
 
