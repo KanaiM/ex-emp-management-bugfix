@@ -1,5 +1,6 @@
 package com.example.form;
 
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -23,7 +24,18 @@ public class InsertAdministratorForm {
 	@Size(min = 5, message = "5文字以上で入力してください")
 	private String password;
 	
+	@NotBlank(message = "必須入力です")
 	private String password2;
+
+	@AssertTrue(message = "確認用パスワードが一致しません")
+	public boolean isPasswordValid() {
+		// if (password == null || password.isEmpty()) {
+		// 	return true;
+		// }
+		
+		return true;
+		// return password.equals(password2);
+	} 
 
 	public String getPassword2() {
 		return password2;
