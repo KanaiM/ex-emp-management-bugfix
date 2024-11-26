@@ -1,15 +1,10 @@
 package com.example.controller;
 
-import java.util.Map;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -84,36 +79,14 @@ public class AdministratorController {
 		if(result.hasErrors()){
 			return toInsert();
 		}
-		if(administratorService.findEmail(form.getMailAddress()) != null) {
-			FieldError fieldError = new FieldError(result.getObjectName(), "mailAddress",form.getMailAddress(),false,null,null, "メールアドレスが既に登録されています");
-			result.addError(fieldError);
-			// model.addAttribute("message", "メールアドレスが既に登録されています");
+		if(form.getPassword().equals(form.getPassword2())){
 			return toInsert();
 		}
 		Administrator administrator = new Administrator();
 		// フォームからドメインにプロパティ値をコピー
 		BeanUtils.copyProperties(form, administrator);
 		administratorService.insert(administrator);
-		
-		
 		return "redirect:/";
-	}
-
-	public String addAllErrors(BindingResult result) {
-        String errorMessages = "";
-        for (ObjectError error : result.getAllErrors()) {
-            errorMessages += error.getDefaultMessage();
-        }
-        return errorMessages;
-    }
-
-	public static BindingResult addAllErrors(BindingResult bindingResult, Map<String, String> errorMap) {
-		for (Map.Entry<String, String> entry : errorMap.entrySet()) {
-			FieldError fieldError = new FieldError(
-                           bindingResult.getObjectName(), entry.getKey(), entry.getValue());
-		    bindingResult.addError(fieldError);
-		}
-		return bindingResult;
 	}
 
 	/////////////////////////////////////////////////////
@@ -159,4 +132,5 @@ public class AdministratorController {
 		session.invalidate();
 		return "redirect:/";
 	}
+
 }
