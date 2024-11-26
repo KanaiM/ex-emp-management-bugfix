@@ -89,6 +89,11 @@
         </li>
       </ol>
 
+      <form th:action="@{/employee/searchList}" method="post">
+        従業員氏名：<input type="text" name="searchName">
+        <button>検索</button>
+        <span th:text="${nullmessage}" style="color: red;"></span>
+      </form>
       <!-- table -->
       <div class="row">
         <div

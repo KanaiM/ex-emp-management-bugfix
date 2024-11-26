@@ -52,4 +52,14 @@ public class EmployeeService {
 	public void update(Employee employee) {
 		employeeRepository.update(employee);
 	}
+
+	/**
+	 * 入力された名前を含む従業員一覧を取得する
+	 * @param searchName
+	 * @return 入力された名前を含む従業員一覧
+	 */
+	public List<Employee> searchList(String searchName){
+		List<Employee> employeeList = employeeRepository.findList(searchName);
+		return employeeList;
+	}
 }
