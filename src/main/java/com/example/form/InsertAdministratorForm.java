@@ -25,22 +25,22 @@ public class InsertAdministratorForm {
 	private String password;
 	
 	@NotBlank(message = "必須入力です")
-	private String password2;
+	private String confilmPassword;
 
 	@AssertTrue(message = "確認用パスワードが一致しません")
 	public boolean isPasswordValid() {
 		if (password == null || password.isEmpty()) {
 			return true;
 		}
-		return password.equals(password2);
+		return password.equals(confilmPassword);
 	} 
 
-	public String getPassword2() {
-		return password2;
+	public String getConfilmPassword() {
+		return confilmPassword;
 	}
 
-	public void setPassword2(String password2) {
-		this.password2 = password2;
+	public void setConfilmPassword(String confilmPassword) {
+		this.confilmPassword = confilmPassword;
 	}
 
 	public String getName() {
@@ -70,7 +70,7 @@ public class InsertAdministratorForm {
 	@Override
 	public String toString() {
 		return "InsertAdministratorForm [name=" + name + ", mailAddress=" + mailAddress + ", password=" + password
-				+ ", password2=" + password2 + "]";
+				+ ", confilmPassword=" + confilmPassword + "]";
 	}
 
 }

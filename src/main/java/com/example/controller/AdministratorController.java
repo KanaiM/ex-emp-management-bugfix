@@ -1,10 +1,14 @@
 package com.example.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -79,7 +83,9 @@ public class AdministratorController {
 		if(result.hasErrors()){
 			return toInsert();
 		}
-		if(form.getPassword().equals(form.getPassword2())){
+		if(administratorService.findEmail(form.getMailAddress()) != null) {
+			FieldError fieldError = new FieldError(result.getObjectName(), "mailAddress",form.getMailAddress(),false,null,null, "メールアドレスが既に登録されています");
+			result.addError(fieldError);
 			return toInsert();
 		}
 		Administrator administrator = new Administrator();
@@ -87,6 +93,34 @@ public class AdministratorController {
 		BeanUtils.copyProperties(form, administrator);
 		administratorService.insert(administrator);
 		return "redirect:/";
+	}
+
+	/**
+	 * エラーメッセージを取得する
+	 * @param result
+	 * @return　エラーメッセージ
+	 */
+	public String addAllErrors(BindingResult result) {
+        String errorMessages = "";
+        for (ObjectError error : result.getAllErrors()) {
+            errorMessages += error.getDefaultMessage();
+        }
+        return errorMessages;
+    }
+
+	/**
+	 * アノテーションなしに行ったすべてのエラーをBindingResultに追加する
+	 * @param bindingResult
+	 * @param errorMap
+	 * @return エラー追加したBindingResult
+	 */
+	public static BindingResult addAllErrors(BindingResult bindingResult, Map<String, String> errorMap) {
+		for (Map.Entry<String, String> entry : errorMap.entrySet()) {
+			FieldError fieldError = new FieldError(
+                           bindingResult.getObjectName(), entry.getKey(), entry.getValue());
+		    bindingResult.addError(fieldError);
+		}
+		return bindingResult;
 	}
 
 	/////////////////////////////////////////////////////
