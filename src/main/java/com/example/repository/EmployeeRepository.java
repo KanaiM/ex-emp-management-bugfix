@@ -45,7 +45,7 @@ public class EmployeeRepository {
 	private NamedParameterJdbcTemplate template;
 
 	/**
-	 * 従業員一覧情報を入社日順で取得します.
+	 * 従業員一覧情報をメールアドレスの昇順で取得します.
 	 * 
 	 * @return 全従業員一覧 従業員が存在しない場合はサイズ0件の従業員一覧を返します
 	 */
@@ -82,5 +82,18 @@ public class EmployeeRepository {
 
 		String updateSql = "UPDATE employees SET dependents_count=:dependentsCount WHERE id=:id";
 		template.update(updateSql, param);
+	}
+
+	/**
+	 * 入力された名前を含む従業員一覧を取得する
+	 * @param searchName
+	 * @return　入力された名前を含む従業員一覧
+	 */
+	public List<Employee> findList(String searchName) {
+		String sql = "SELECT id,name,image,gender,hire_date,mail_address,zip_code,address,telephone,salary,characteristics,dependents_count FROM employees WHERE name LIKE :name ORDER BY mail_address;";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("name", "%" + searchName + "%");
+		List<Employee> employeeList = template.query(sql, param, EMPLOYEE_ROW_MAPPER);
+
+		return employeeList;
 	}
 }

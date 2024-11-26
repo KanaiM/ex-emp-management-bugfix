@@ -92,4 +92,21 @@ public class EmployeeController {
 		employeeService.update(employee);
 		return "redirect:/employee/showList";
 	}
+
+	/**
+	 * 指定した従業員氏名を含む従業員一覧を表示し、該当者がいない場合はメッセージと共に全件を一覧に表示する
+	 * @param searchName
+	 * @param model
+	 * @return　指定した従業員氏名を含む従業員一覧もしくはメッセージと共に従業員全件一覧
+	 */
+	@PostMapping("/searchList")
+	public String searchList(String searchName,Model model) {
+		List<Employee> employeeList = employeeService.searchList(searchName);
+		if(employeeList.size() == 0){
+			model.addAttribute("nullmessage", "１件もありませんでした");
+			return showList(model);
+		}
+		model.addAttribute("employeeList", employeeList);
+		return "employee/list";
+	}
 }
