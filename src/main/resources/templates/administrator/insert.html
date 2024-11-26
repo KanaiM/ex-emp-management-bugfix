@@ -127,7 +127,7 @@
                 <div class="form-group">
                   <div class="row">
                     <div class="col-sm-12">
-                      <label for="password2"> 確認用パスワード: </label>
+                      <label for="confilmPassword"> 確認用パスワード: </label>
                       <label
                       th:if="${#fields.hasErrors('passwordValid')}"
                       th:errors="*{passwordValid}"
@@ -136,10 +136,10 @@
                       </label>
                       <input
                         type="password"
-                        name="password2"
-                        id="password2"
+                        name="confilmPassword"
+                        id="confilmPassword"
                         class="form-control"
-                        th:field="*{passwordValid}"
+                        th:field="*{confilmPassword}"
                         th:errorclass="error-input"
                         value="xxxxxxxx"
                       />
