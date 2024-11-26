@@ -129,8 +129,8 @@
                     <div class="col-sm-12">
                       <label for="password2"> 確認用パスワード: </label>
                       <label
-                      th:if="${#fields.hasErrors('passwordValid')}" 
-                      th:errors="*{password2}"
+                      th:if="${#fields.hasErrors('passwordValid')}"
+                      th:errors="*{passwordValid}"
                       class="error-messages"
                     >
                       </label>
@@ -139,7 +139,7 @@
                         name="password2"
                         id="password2"
                         class="form-control"
-                        th:field="*{password2}"
+                        th:field="*{passwordValid}"
                         th:errorclass="error-input"
                         value="xxxxxxxx"
                       />
